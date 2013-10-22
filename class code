@@ -1,0 +1,233 @@
+float armX=115;
+float armY=75;
+float limtX=30;
+float initX=-300;
+
+int redFigureX = 450;
+int redFigureY = 50;
+
+float angle=0;
+
+float gravity = 0.2;
+
+//------------------------------
+int BetoX = 0;
+
+int headsize=50;
+int head;
+int headX=50;
+int headY=25;
+
+int torsosize1=10;
+int torsosize2=headsize+20;
+int headValue=headsize/2;
+int headValue2=headValue/2;
+int torsoValue=torsosize2/2;
+int knee=150;
+
+float figure2Pos=120;
+
+void setup() {
+  size(700, 300);
+}
+
+void draw() {
+
+  background(255,200,40);
+  pushMatrix();
+  translate(redFigureX, redFigureY);
+  drawFigure();
+  if (armX<initX) {
+    armX = 115;
+    armY = 75;
+    angle=0;
+    gravity=0;
+    figure2Pos=120;
+  }
+  if (armX>limtX) {
+    armX-=3;
+    armY-=1;
+    //armY-=sin(angle);
+  }
+  else {
+    armX-=4;
+    //println(armY);
+    //armY-= sin(angle);
+    armY-=1-gravity;
+    gravity+=0.04;
+  }
+  movetation(armX, armY, limtX);
+  dollarMotion();
+  popMatrix();
+  //println(sin(val));
+  angle+=0.035;
+  //println(sin(angle));
+  pushMatrix();
+  figure2Pos+=1-gravity;
+  translate(figure2Pos, redFigureY);
+  beto() ;
+  popMatrix();
+}
+
+void drawFigure() {
+  //background(0,255,0);
+  fill(255,200,40);
+  noStroke();
+  rect(0, 0, 100, 200);
+  stroke(0);
+  ellipseMode(CENTER);
+  ellipse(50, 50, 50, 50);
+
+  fill(0);
+  ellipseMode(CENTER);
+  ellipse(44, 38, 10, 10);
+
+  fill(0);
+  ellipseMode(CENTER);
+  ellipse(60, 44, 10, 10);
+
+
+
+  stroke(255, 0, 0);
+  strokeWeight(3);
+  line(50, 75, 15, 115);
+
+  stroke(0);
+  line(50, 75+55, 90-15, 115+75);
+
+  stroke(0);
+  line(50, 75+55, 15+15, 115+75);
+
+  stroke(0);
+  line(50, 75, 50, 75+55);
+
+  arc(50, 50, 30, 30, 0.5, PI+0.2, CHORD);
+
+
+  fill(255, 0, 0);
+  noStroke();
+  triangle(25, 75+65, 50, 75, 90-15, 75+65);
+}
+
+void movetation(float armX, float armY, float limtX) {
+
+  if (armX>limtX) {
+    stroke(255, 0, 0);
+    strokeWeight(3);
+    line(50, 75, armX, armY);
+
+    fill(0);
+    textSize(18);
+    text("$", armX, armY);
+  }
+  else {
+
+    stroke(255, 0, 0);
+    strokeWeight(3);
+    line(50, 75, limtX, 46);
+    fill(0);
+    textSize(18);
+    text("$", armX, armY);
+  }
+}
+/*void dollarMotion(int dynamicY){
+ 
+ for(int i=0;i<4;i++){
+ fill(0);
+ textSize(i*4+20);
+ text("$",i*5+30, i*20+30-dynamicY);
+ }
+ 
+ }*/
+void dollarMotion() {
+
+  fill(0);
+  textSize(30);
+  text("$", 30, 30);
+
+
+  fill(0);
+  textSize(20);
+  text("$", 40, 100);
+
+
+
+  fill(0);
+  textSize(25);
+  text("$", 60, 150);
+
+
+
+  fill(0);
+  textSize(18);
+  text("$", 50, 170);
+}
+
+void beto() {
+
+
+  //head  
+  fill(200);
+  stroke(0);
+  strokeWeight(0);
+  ellipseMode(CENTER);
+  ellipse(headX, headY, headsize, headsize);
+
+  fill(200);
+  stroke(0);
+  ellipseMode(CENTER);
+  ellipse(headX-headValue2, headY, headValue, headValue2);
+
+  fill(200);
+  stroke(0);
+  ellipseMode(CENTER);
+  ellipse(headX+headValue2, headY, headValue, headValue2);
+
+  fill(0);
+  stroke(0);
+  ellipseMode(CENTER);
+  ellipse(headX-headValue2, headY, headValue2/2, headValue2/2);
+
+  fill(0);
+  stroke(0);
+  ellipseMode(CENTER);
+  ellipse(headX+headValue2, headY, headValue2/2, headValue2/2);
+
+  //torso
+
+  strokeWeight(0);
+  fill(150, 20, 0);
+  ellipseMode(CENTER);
+  ellipse(headX, headY+headValue+torsoValue, torsosize1, torsosize2);
+
+  //leg1
+
+  strokeWeight(5);
+  line (headX, headY+headValue+torsosize2, headX-headValue2, knee);
+  line (headX-headValue2, knee, headX-headValue2, 200);
+
+  strokeWeight(5);
+  line (headX, headY+headValue+torsosize2, headX+headValue2, knee);
+  line (headX+headValue2, knee, headX+headValue2, 200);
+
+  //shoes
+  strokeWeight(0);
+  rect (headX-headValue2-20, 190, 20, 200);
+  rect (headX+headValue2, 190, 20, 200);
+
+  //arms
+  strokeWeight(5);
+  line (headX, headY+headValue+headValue2, headX-headValue2, 100);
+  line (headX-headValue2, 100, headX-headValue-headValue2, headY+headValue);
+
+  strokeWeight(5);
+  line (headX, headY+headValue+headValue2, headX+headValue2, 100);
+  line (headX+headValue2, 100, headX+headValue+headValue2, headY+headValue);
+
+  //torso
+
+  strokeWeight(0);
+  fill(150, 20, 0);
+  ellipseMode(CENTER);
+  ellipse(headX, headY+headValue+torsoValue, torsosize1, torsosize2);
+}
